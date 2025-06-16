@@ -7,7 +7,6 @@ from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder,StandardScaler
-
 from src.exception import CustomException
 from src.logger import logging
 import os
@@ -24,7 +23,7 @@ class DataTransformation:
 
     def get_data_transformer_object(self):
         '''
-        This function si responsible for data trnasformation
+        This function is responsible for data trnasformation
         
         '''
         try:
@@ -41,7 +40,6 @@ class DataTransformation:
                 steps=[
                 ("imputer",SimpleImputer(strategy="median")),
                 ("scaler",StandardScaler())
-
                 ]
             )
 
@@ -52,7 +50,6 @@ class DataTransformation:
                 ("one_hot_encoder",OneHotEncoder()),
                 ("scaler",StandardScaler(with_mean=False))
                 ]
-
             )
 
             logging.info(f"Categorical columns: {categorical_columns}")
@@ -64,8 +61,6 @@ class DataTransformation:
                 ("cat_pipelines",cat_pipeline,categorical_columns)
 
                 ]
-
-
             )
 
             return preprocessor
@@ -80,7 +75,6 @@ class DataTransformation:
             test_df=pd.read_csv(test_path)
 
             logging.info("Read train and test data completed")
-
             logging.info("Obtaining preprocessing object")
 
             preprocessing_obj=self.get_data_transformer_object()
@@ -90,7 +84,6 @@ class DataTransformation:
 
             input_feature_train_df=train_df.drop(columns=[target_column_name],axis=1)
             target_feature_train_df=train_df[target_column_name]
-
             input_feature_test_df=test_df.drop(columns=[target_column_name],axis=1)
             target_feature_test_df=test_df[target_column_name]
 
@@ -107,12 +100,10 @@ class DataTransformation:
             test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
 
             logging.info(f"Saved preprocessing object.")
-
             save_object(
 
                 file_path=self.data_transformation_config.preprocessor_obj_file_path,
                 obj=preprocessing_obj
-
             )
 
             return (
